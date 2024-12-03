@@ -12,7 +12,7 @@ The **Battleship Game** is a browser-based version of the classic naval strategy
 - **Restart Option**: Quickly reset the game for a fresh start.
 
 ## How to Play
-1. Open the game in your browser by opening the `index.html` file.
+1. Open the game in your browser by opening the [`index.html`](https://dhruvkangaroo.github.io/BattleShip-Web-Game/) file.
 2. Enter your name in the input field.
 3. Place your ships manually or use the **Randomize Ships** button.
 4. Start the game by clicking **Start Game**.
@@ -39,5 +39,3 @@ The **Battleship Game** is a browser-based version of the classic naval strategy
 ## Credits
 Developed by **Dhruv Kangaroo**. All rights reserved.
 
-## License
-This project is licensed under [MIT License](LICENSE)
