@@ -1,40 +1,20 @@
-# Battleship Game
+# Battleship
+Classic battleship game, written using HTML, CSS and Javascript.
 
-## Overview
-The **Battleship Game** is a browser-based version of the classic naval strategy game, built using HTML, CSS, and JavaScript. Players strategically place their ships and try to sink their opponent’s fleet through turn-based gameplay.
+The player has to enter their name, place ships and shoot into enemy's board squares to sink its fleet and win.
 
-## Features
-- **Ship Placement**: Players can place their ships manually or randomize their positions.
-- **Rotation Option**: Rotate ships to fit them strategically on the board.
-- **Interactive Gameplay**: Engage in a turn-based battle to sink the opponent's ships.
-- **Chat System**: Communicate with your opponent during the game.
-- **Notification System**: Displays game status, including victory announcements and rematch options.
-- **Restart Option**: Quickly reset the game for a fresh start.
+## Features:
+- Playing with a computer
+- Manual and random ship placement
+- Viewing unsunk ships in real time
+- Chat for players and sunk ship notifications
 
-## How to Play
-1. Open the game in your browser by opening the `index.html` file.
-2. Enter your name in the input field.
-3. Place your ships manually or use the **Randomize Ships** button.
-4. Start the game by clicking **Start Game**.
-5. Take turns to select coordinates on the opponent's board to attack.
-6. Use the chat to communicate with your opponent.
-7. Sink all of the opponent's ships to win!
+## Snapshot
+![snapshot](/snapshot.jpg)
 
-## Controls
-- **Rotate Ships**: Rotate your ships vertically or horizontally.
-- **Randomize Ships**: Automatically place ships in random positions.
-- **Send Message**: Use the chat input to send messages during the game.
-- **Restart Game**: Click the restart button to reset and start over.
-
-## Technologies Used
-- **HTML**: For structuring the game interface.
-- **CSS**: For styling the game.
-- **JavaScript**: For handling game logic and interactions.
-
-## File Structure
-- **index.html**: The main HTML file for the game.
-- **style.css**: The CSS file for styling the game interface.
-- **main.js**: The JavaScript file containing game logic and interactivity.
-
-## Credits
-Developed by **Dhruv Kangaroo**. All rights reserved.
+## Possible improvements
+- Improve board and unsunk ships design responsiveness
+- Show a notification or disable a button or when it's functionality isn't available
+- Split the script file into smaller ones
+- Make computer moves intelligent (currently it shuffles coordinates)
+- Multiplayer
