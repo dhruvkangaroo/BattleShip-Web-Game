@@ -35,10 +35,7 @@ The **Battleship Game** is a browser-based version of the classic naval strategy
 - **index.html**: The main HTML file for the game.
 - **style.css**: The CSS file for styling the game interface.
 - **main.js**: The JavaScript file containing game logic and interactivity.
-
-## Screenshot
-![Battleship Game Screenshot](#)
-
+  
 ## Credits
 Developed by **Dhruv Kangaroo**. All rights reserved.
 
