@@ -440,44 +440,97 @@ function userTurn(e) {
 }
 
 function computerTurn() {
-  if (!isGameOn)
-    return;
+  if (!isGameOn) return;
 
-  turnDisplay.innerHTML = "Opponent's turn to shoot";
-  let square = document.getElementById(
-    "user,"+computerShots[computerShotIndex][0]+","+computerShots[computerShotIndex][1]
-  );
+  let square;
+
+  if (aiTargets.length > 0) {
+    let [r, c] = aiTargets.shift();
+    square = document.getElementById("user," + r + "," + c);
+  } else {
+    let shot = computerShots[computerShotIndex++];
+    square = document.getElementById("user," + shot[0] + "," + shot[1]);
+  }
 
   shoot(square);
+
   if (square.classList.contains("hit")) {
     handleHit(userShips, square);
+    let parts = square.id.split(",");
+    let r = parseInt(parts[1]);
+    let c = parseInt(parts[2]);
+
+    if (!aiLastHit) {
+      aiLastHit = [r, c];
+      queueNeighbors(r, c);
+    } else {
+      if (!aiDirection) {
+        aiDirection = (r === aiLastHit[0]) ? "horizontal" : "vertical";
+      }
+      extendAttack(r, c);
+    }
   }
-  computerShotIndex++;
+
   currentPlayer = "user";
   turnDisplay.innerHTML = playerName.value + " turn to shoot";
 }
 
+function queueNeighbors(r, c) {
+  [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(pos => {
+    let [nr, nc] = pos;
+    if (nr >= 1 && nr <= 10 && nc >= 1 && nc <= 10) {
+      let sq = document.getElementById("user," + nr + "," + nc);
+      if (!sq.classList.contains("hit") && !sq.classList.contains("missed")) {
+        aiTargets.push([nr, nc]);
+      }
+    }
+  });
+}
+
+function extendAttack(r, c) {
+  let dr = aiDirection === "vertical" ? 1 : 0;
+  let dc = aiDirection === "horizontal" ? 1 : 0;
+
+  let next = [r + dr, c + dc];
+  let prev = [r - dr, c - dc];
+
+  [next, prev].forEach(pos => {
+    let [nr, nc] = pos;
+    if (nr >= 1 && nr <= 10 && nc >= 1 && nc <= 10) {
+      let sq = document.getElementById("user," + nr + "," + nc);
+      if (!sq.classList.contains("hit") && !sq.classList.contains("missed")) {
+        aiTargets.unshift([nr, nc]);
+      }
+    }
+  });
+}
+
 function handleHit(ships, square) {
   const classes = square.classList;
-  for (let i = 0; i < classes.length; i ++)
+  for (let i = 0; i < classes.length; i++)
     if (classes[i].substring(0,4) === "ship") {
       var id = parseInt(classes[i].slice(-1));
       break;
     }
 
-  ships[id].blocksLeft --;
+  ships[id].blocksLeft--;
 
   if (ships[id].blocksLeft === 0) {
     ships[id].sunk = true;
-    
+
+    // Reset AI when a ship is sunk
+    aiTargets = [];
+    aiLastHit = null;
+    aiDirection = null;
+
     if (currentPlayer === "user") {
       removeSunkShip(id, "opponent");
       addMessage("You have sunk your opponent's " + ships[id].size + " size ship.", "good");
-    }
-    else {
+    } else {
       removeSunkShip(id, "user");
       addMessage("The opponent has sunk your " + ships[id].size + " size ship.", "bad");
     }
+
     checkIfWon(ships);
   }
 }
@@ -557,4 +610,5 @@ function hideStartButtons() {
 // 1 - taken
 // 2 - unavailable
 // 3 - hit
+
 // 4 - missed
