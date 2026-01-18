@@ -126,7 +126,7 @@ randomizeButton.addEventListener('click', function () {
     })
 })
 
-// generate computer shooting pattern
+// computer shooting pattern
 var computerShots = [];
 var computerShotIndex = 0;
 for (let row = 1; row <= 10; row ++) {
@@ -135,6 +135,10 @@ for (let row = 1; row <= 10; row ++) {
   }
 }
 computerShots = shuffle(computerShots);
+
+var aiTargets = [];
+var aiLastHit = null;
+var aiDirection = null;
 
 // create chat
 let chat = document.getElementById("chat-text");
@@ -612,3 +616,4 @@ function hideStartButtons() {
 // 3 - hit
 
 // 4 - missed
+
