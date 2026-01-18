@@ -12,56 +12,16 @@ createBoard(userGrid, "user");
 createBoard(computerGrid, "computer");
 
 const shipArray = [
-  {
-    name: "one-size-ship",
-    size: 1,
-    index: 0
-  },
-  {
-    name: "one-size-ship",
-    size: 1,
-    index: 1
-  },
-  {
-    name: "one-size-ship",
-    size: 1,
-    index: 2
-  },
-  {
-    name: "one-size-ship",
-    size: 1,
-    index: 3
-  },
-  {
-    name: "two-size-ship",
-    size: 2,
-    index: 4
-  },
-  {
-    name: "two-size-ship",
-    size: 2,
-    index: 5
-  },
-  {
-    name: "two-size-ship",
-    size: 2,
-    index: 6
-  },
-  {
-    name: "three-size-ship",
-    size: 3,
-    index: 7
-  },
-  {
-    name: "three-size-ship",
-    size: 3,
-    index: 8
-  },
-  {
-    name: "four-size-ship",
-    size: 4,
-    index: 9
-  }
+  { name: "one-size-ship", size: 1, index: 0 },
+  { name: "one-size-ship", size: 1, index: 1 },
+  { name: "one-size-ship", size: 1, index: 2 },
+  { name: "one-size-ship", size: 1, index: 3 },
+  { name: "two-size-ship", size: 2, index: 4 },
+  { name: "two-size-ship", size: 2, index: 5 },
+  { name: "two-size-ship", size: 2, index: 6 },
+  { name: "three-size-ship", size: 3, index: 7 },
+  { name: "three-size-ship", size: 3, index: 8 },
+  { name: "four-size-ship", size: 4, index: 9 }
 ]
 
 let userBoard = Array(11).fill(0).map(() => Array(11).fill(0));
@@ -70,7 +30,7 @@ let userShips = [];
 let computerShips = [];
 
 // randomly place opponent's ships
-for (let i = shipArray.length-1; i >= 0; i --) { // reverse loop
+for (let i = shipArray.length-1; i >= 0; i --) {
   generate(shipArray[i].size, shipArray[i].name, computerBoard, "computer", computerShips, shipArray[i].index);
 }
 
@@ -112,21 +72,18 @@ restartButton.addEventListener('click', function () {
 // randomize user ships
 const randomizeButton = document.getElementById("randomize");
 randomizeButton.addEventListener('click', function () {
-  // don't randomize if any ships are already placed
   if (document.getElementsByClassName("ship").length !== 10) {
     return;
   }
-
   for (let i = shipArray.length-1; i >= 0; i --) {
     generate(shipArray[i].size, shipArray[i].name, userBoard, "user", userShips, shipArray[i].index);
   }
-
   document.querySelectorAll('.ship').forEach(function(a){
     a.remove()
-    })
+  })
 })
 
-// computer shooting pattern
+// generate computer shooting pattern
 var computerShots = [];
 var computerShotIndex = 0;
 for (let row = 1; row <= 10; row ++) {
@@ -136,6 +93,7 @@ for (let row = 1; row <= 10; row ++) {
 }
 computerShots = shuffle(computerShots);
 
+// --- AI VARIABLES INITIALIZATION ---
 var aiTargets = [];
 var aiLastHit = null;
 var aiDirection = null;
@@ -180,9 +138,9 @@ function generate(shipSize, shipName, board, boardName, shipOwner, id) {
 
   const availableStartPos = (function() {
     let maxrow = 10, maxcol = 10;
-    if (randomDirection === 0) // horizontal
+    if (randomDirection === 0)
       maxrow = 11 - shipSize;
-    else maxcol = 11 - shipSize; // vertical
+    else maxcol = 11 - shipSize;
 
     let positions = [];
     for (let row = 1; row <= maxrow; row ++) {
@@ -195,7 +153,6 @@ function generate(shipSize, shipName, board, boardName, shipOwner, id) {
             break;
           shipSquare ++;
         }
-
         if (shipSquare === shipSize)
           positions.push([row, column]);
       }
@@ -273,7 +230,7 @@ function handleDivMouseOver(e) {
       } else if (userBoard[squareRow+shipSquare][squareCol] !== 0) {
         break;
       }
-    } else if (squareCol+shipSquare > 10) { // goes down here when the ship is horizontal
+    } else if (squareCol+shipSquare > 10) {
         break;
     } else if (userBoard[squareRow][squareCol+shipSquare] !== 0) {
       break;
@@ -351,7 +308,6 @@ function handleDivClick(e) {
   }
 }
 
-
 function rotateShips() {
   for (let i = 0; i < 10; i ++) {
     const ship = document.getElementById(i);
@@ -375,7 +331,6 @@ function rotateShips() {
   isHorizontal = !isHorizontal;
 }
 
-// Fisher-Yates (aka Knuth) Shuffle
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
   while (0 !== currentIndex) {
@@ -385,7 +340,6 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
   return array;
 }
 
@@ -398,7 +352,6 @@ function play() {
   hideStartButtons();
   changeUserShipColors();
 
-  // sort ships to match the primary ship array indexes
   userShips.sort((a, b) => (a.size > b.size) ? 1 : -1);
   computerShips.sort((a, b) => (a.size > b.size) ? 1 : -1);
 
@@ -447,31 +400,44 @@ function computerTurn() {
   if (!isGameOn) return;
 
   let square;
+  let r, c;
 
-  if (aiTargets.length > 0) {
-    let [r, c] = aiTargets.shift();
-    square = document.getElementById("user," + r + "," + c);
-  } else {
-    let shot = computerShots[computerShotIndex++];
-    square = document.getElementById("user," + shot[0] + "," + shot[1]);
-  }
+  do {
+      if (aiTargets.length > 0) {
+        [r, c] = aiTargets.shift();
+        square = document.getElementById("user," + r + "," + c);
+      } else {
+        let shot = computerShots[computerShotIndex++];
+        [r, c] = shot;
+        square = document.getElementById("user," + r + "," + c);
+      }
+  } while (square.classList.contains("hit") || square.classList.contains("missed"));
 
   shoot(square);
 
   if (square.classList.contains("hit")) {
     handleHit(userShips, square);
-    let parts = square.id.split(",");
-    let r = parseInt(parts[1]);
-    let c = parseInt(parts[2]);
+    
+    let shipId;
+    square.classList.forEach(cls => {
+        if (cls.startsWith("ship")) shipId = parseInt(cls.replace("ship",""));
+    });
 
-    if (!aiLastHit) {
-      aiLastHit = [r, c];
-      queueNeighbors(r, c);
-    } else {
-      if (!aiDirection) {
-        aiDirection = (r === aiLastHit[0]) ? "horizontal" : "vertical";
-      }
-      extendAttack(r, c);
+    if (!userShips[shipId].sunk) {
+        let parts = square.id.split(",");
+        let r = parseInt(parts[1]);
+        let c = parseInt(parts[2]);
+
+        if (!aiLastHit) {
+          aiLastHit = [r, c];
+          queueNeighbors(r, c);
+        } else {
+          if (!aiDirection) {
+            if (r === aiLastHit[0]) aiDirection = "horizontal";
+            else aiDirection = "vertical";
+          }
+          extendAttack(r, c);
+        }
     }
   }
 
@@ -511,19 +477,20 @@ function extendAttack(r, c) {
 
 function handleHit(ships, square) {
   const classes = square.classList;
-  for (let i = 0; i < classes.length; i++)
-    if (classes[i].substring(0,4) === "ship") {
-      var id = parseInt(classes[i].slice(-1));
+  let id;
+  for (let i = 0; i < classes.length; i++) {
+    if (classes[i].substring(0, 4) === "ship") {
+      id = parseInt(classes[i].slice(-1));
       break;
     }
+  }
 
   ships[id].blocksLeft--;
 
   if (ships[id].blocksLeft === 0) {
     ships[id].sunk = true;
 
-    // Reset AI when a ship is sunk
-    aiTargets = [];
+    
     aiLastHit = null;
     aiDirection = null;
 
@@ -547,7 +514,6 @@ function removeSunkShip(id, player) {
       break;
     }
   }
-  
   container.removeChild(shipToRemove);
 }
 
@@ -576,7 +542,6 @@ function checkIfWon(playerShips) {
     endGame();
   };
 }
-
 
 function addMessage(text, type) {
   let row = document.createElement("div");
@@ -609,11 +574,4 @@ function hideStartButtons() {
   randomizeButton.style.display = "none";
   rotateButton.style.display = "none";
 }
-
-// 0 - available
-// 1 - taken
-// 2 - unavailable
-// 3 - hit
-
-// 4 - missed
 
