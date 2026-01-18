@@ -1,7 +1,7 @@
 # Battleship Game
 
 ## Overview
-The **Battleship Game** is a browser-based version of the classic naval strategy game, built using HTML, CSS, and JavaScript. Players strategically place their ships and try to sink their opponent’s fleet through turn-based gameplay.
+This is a browser-based version of the classic naval strategy game Battleship!
 
 ## Features
 - **Ship Placement**: Players can place their ships manually or randomize their positions.
@@ -25,17 +25,6 @@ The **Battleship Game** is a browser-based version of the classic naval strategy
 - **Randomize Ships**: Automatically place ships in random positions.
 - **Send Message**: Use the chat input to send messages during the game.
 - **Restart Game**: Click the restart button to reset and start over.
-
-## Technologies Used
-- **HTML**: For structuring the game interface.
-- **CSS**: For styling the game.
-- **JavaScript**: For handling game logic and interactions.
-
-## File Structure
-- **index.html**: The main HTML file for the game.
-- **style.css**: The CSS file for styling the game interface.
-- **main.js**: The JavaScript file containing game logic and interactivity.
   
-## Credits
-Developed by **Dhruv Kangaroo**. All rights reserved.
+Developed by **Dhruv Kangaroo** :)
 
