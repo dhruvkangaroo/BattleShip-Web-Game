@@ -93,7 +93,6 @@ for (let row = 1; row <= 10; row ++) {
 }
 computerShots = shuffle(computerShots);
 
-// --- AI VARIABLES INITIALIZATION ---
 var aiTargets = [];
 var aiLastHit = null;
 var aiDirection = null;
@@ -574,4 +573,5 @@ function hideStartButtons() {
   randomizeButton.style.display = "none";
   rotateButton.style.display = "none";
 }
+
 
